@@ -6,7 +6,7 @@ node {
     def image
     docker.withRegistry('https://registry.hub.docker.com', 'DockerHub') {
         image = docker.image('srilekhas/php:latest')
-        image.pull()
+        dockerImage.pull()
     }
 
     stage 'Push image to private-registry-2'
