@@ -10,3 +10,4 @@ node {
             sh "docker push 9492261286/php-new:latest"
             }
         }
+}	
