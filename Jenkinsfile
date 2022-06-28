@@ -1,27 +1,21 @@
-node {
-    checkout scm
-
-    stage ('Pull latest image from private-registry-1') {
-
-    def image
-    docker.withRegistry('https://registry.hub.docker.com', 'DockerHub') {
-        def customImage = docker.image('srilekhas/php:latest')
-        customImage.pull()
-    }
+pipeline {
+        agent any
+        environment {
+	DOCKERHUB_CREDENTIALS=credentials('DockerHub')	
 	}
 
-    stage ('Push image to private-registry-2') {
-
-    sh 'docker tag srilekhas/php:latest 9492261286/php:latest'
-    image = docker.image('9492261286/php-new:latest') 
-	
-    }
-	
-    stage ('Upload Image') {
-	
-    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub2') {
-        customImage.push()
-    }
-}
+        stages {
+            
+            stage('tag image') {
+                steps {
+                    sh 'docker tag srilekhas/php:latest 9492261286/php-new:latest'
+                }
+            }
+            stage('push image') {
+                steps {	
+                    sh 'docker login -u 9492261286 -p Lekha1998'
+                    sh 'docker push 9492261286/php-new:latest'
+                }
+            }
+        } 
 }	
-	
