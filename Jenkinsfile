@@ -1,29 +1,27 @@
+def user
+node {
+  wrap([$class: 'BuildUser']) {
+    user = env.BUILD_USER_ID
+  }
+  
+  emailext mimeType: 'text/html',
+                 subject: "[Jenkins]${currentBuild.fullDisplayName}",
+                 to: "somasrilekha98@gmail.com",
+                 body: '''<a href="${BUILD_URL}input">click to approve</a>'''
+}
+
 pipeline {
         agent any
+        triggers {
+          cron '* * * * *'
         }
         environment {
-	DOCKERHUB_CREDENTIALS=credentials('DockerHub')	
-	def jobName = currentBuild.fullDisplayName
-	def mailToRecipients = 'somasrilekha98@gmail.com'
-	def useremail = 'somasrilekha98@gmail.com'	
-	}	
+	DOCKERHUB_CREDENTIALS=credentials('DockerHub')
+	}
+
         stages {
             
             stage('tag image') {
-		    
-		  // starts here//  
-		 def userAborted = false   
-		 emailext body: '*'
-		 // Please go to console output of ${BUILD_URL}input to approve or Reject.<br>
-		 '*'
-		 mimeType: 'test/html'   
-                 subject: "[Jenkins] ${jobName} Build Approval Request",
-		 from: "$(useremail)",	 
-                 to: "$(mailToRecipients)",
-		 recipientProviders: [[$class: 'CulpritsRecipientProvider']]
-			 
-                 body: '''<a href="${BUILD_URL}input">click to approve</a>'''    
-		    // ends here //
                 steps {
                     sh 'docker tag srilekhas/php:latest 9492261286/php-new:latest'
                 }
