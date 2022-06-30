@@ -1,6 +1,6 @@
 def user
 node {
-  wrap([$class: 'CulpritsRecipientProvider']) {
+  wrap([$class: 'BuildUser']) {
     user = env.BUILD_USER_ID
   }
   
