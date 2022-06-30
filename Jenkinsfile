@@ -14,7 +14,7 @@ pipeline {
 		  // starts here//  
 		 def userAborted = false   
 		 emailext body: '*'
-		 Please go to console output of ${BUILD_URL}input to approve or Reject.<br>
+		 // Please go to console output of ${BUILD_URL}input to approve or Reject.<br>
 		 '*'
 		 mimeType: 'test/html'   
                  subject: "[Jenkins] ${jobName} Build Approval Request",
